@@ -1,42 +1,27 @@
 import { useState } from "react";
-import { Button } from "./components/Button";
-
+import { Button } from "./components/Button"
 export default function App() {
 
     return (
-        <Counter>
-        </Counter>
+        <Todo></Todo>
     );
 }
 
 
-function Counter() {
-    const [value, setvalue] = useState(0)
-    const handleIncrement = () => {
-        setvalue((current) => {
-            return current + 1
-        })
-    }
-    const handleUnincrement = () => {
-        setvalue(0)
-    }
+function Todo() {
     return (
-        <div className="w-full h-screen -center bg-gray-900 text-white">
-            <p className="text-3xl">
-                value:{value}
-            </p>
-            <Button
-                color="secondary"
-                onclick={handleIncrement}
+        <div className="p-4 flex flex-col gap-4 w-[500px]">
+            <form
+                action={(formData) => {
+                    console.log(formData);
+                }}
+                className="flex items-center gap-2"
             >
-                Click me
-            </Button>
-            <Button
-                color="primary"
-                onclick={handleUnincrement}
-            >
-                Reset
-            </Button>
+                <input type="text" name="todo" className="border rounded-md px-2 py-3 flex-1" />
+                <Button color="primary" type="submit">Click</Button>
+            </form>
+            <ul>
+            </ul>
         </div>
     )
 }
