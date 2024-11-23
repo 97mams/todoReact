@@ -2,14 +2,15 @@ import { useState } from "react"
 
 function App() {
 
-  const [todos, setTodos] = useState([{ id: 1, name: "mamisoa", checked: false }, { id: 2, name: "santatra", checked: false }])
+  const [todos, setTodos] = useState([])
 
   const onAction = async (formData) => {
     const todo = formData.get('todo')
 
     setTodos([...todos, {
       id: Date.now(),
-      name: todo
+      name: todo,
+      completed: false
     }])
   }
 
@@ -24,6 +25,19 @@ function App() {
 
   const onDelete = (id) => {
     setTodos(todos.filter((todo) => todo.id !== id))
+  }
+
+  const onUpdate = async (formData) => {
+    setTodos(
+      todos.map((todo) => {
+        if (todo.id === formData.id) {
+          return { ...todo, ...formData.todoUpdate }
+        }
+        return todo
+      })
+    )
+    alert('update')
+
   }
 
   return (
@@ -43,24 +57,43 @@ function App() {
           todos.map((todo) => (
             <li
               key={todo.id}
-              className="bg-zinc-700 px-4 py-2 flex items-center text-white rounded-md"
             >
-              <span className="flex-1 flex gap-2 items-baseline">
-                <input
-                  type="checkbox"
-                  checked={todo.checked}
-                  onChange={() => todoUpdateChecked(todo.id, {
-                    checked: !todo.checked
-                  })}
-                />
-                {todo.name}
-              </span>
-              <button
-                className="border border-zinc-900 rounded-md p-2 text-sm"
-                onClick={() => onDelete(todo.id)}
+              <form
+                className="bg-zinc-700 px-4 py-2 flex items-center text-white rounded-md"
+                action={onUpdate}
               >
-                Delete
-              </button>
+                <span className="flex-1 flex gap-2 items-baseline">
+                  <input
+                    type="checkbox"
+                    checked={todo.checked}
+                    onChange={() => todoUpdateChecked(todo.id, {
+                      checked: !todo.checked
+                    })}
+                  />
+                  <input type="number" hidden name="id" defaultValue={todo.id} />
+                  <input
+                    type="text"
+                    defaultValue={todo.name}
+                    name="todoUpdate"
+                    disabled={todo.checked}
+                    className="bg-zinc-700 outline-none" />
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    className="border border-zinc-900 rounded-md p-2 text-sm"
+                    type="submit"
+                    disabled={todo.checked}
+                  >
+                    update
+                  </button>
+                  <button
+                    className="border border-zinc-900 rounded-md p-2 text-sm"
+                    onClick={() => onDelete(todo.id)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </form>
             </li>
           ))
         }
