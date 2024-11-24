@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { Button } from "./components/Button"
 
 function App() {
 
@@ -45,12 +46,11 @@ function App() {
       <h1 className="text-white text-4xl">Todo liste</h1>
       <form action={onAction} className="flex gap-2">
         <input type="text" name="todo" className="border border-white bg-zinc-700 text-white rounded-md px-4 py-3 flex-1" />
-        <button
-          className="border rounded-md bg-zinc-900 text-white px-2 py-3"
+        <Button
           type="submit"
         >
           Add
-        </button>
+        </Button>
       </form>
       <ul className="flex flex-col gap-4">
         {
@@ -86,12 +86,11 @@ function App() {
                   >
                     update
                   </button>
-                  <button
-                    className="border border-zinc-900 rounded-md p-2 text-sm"
-                    onClick={() => onDelete(todo.id)}
+                  <Button
+                    onclick={() => onDelete(todo.id)}
                   >
                     Delete
-                  </button>
+                  </Button>
                 </div>
               </form>
             </li>
