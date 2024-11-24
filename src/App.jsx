@@ -76,7 +76,7 @@ function App() {
                     defaultValue={todo.name}
                     name="todoUpdate"
                     disabled={todo.checked}
-                    className="bg-zinc-700 outline-none" />
+                    className="bg-zinc-700 outline-none flex-1" />
                 </span>
                 <div className="flex gap-2">
                   <button
