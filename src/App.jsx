@@ -41,6 +41,13 @@ function App() {
 
   }
 
+  const classname = (checked) => {
+    if (checked) {
+      return "bg-zinc-700 outline-none flex-1 text-gray-400 line-through"
+    }
+    return "bg-zinc-700 outline-none flex-1"
+  }
+
   return (
     <div className="m-full flex flex-col p-10 gap-4">
       <h1 className="text-white text-4xl">Todo liste</h1>
@@ -62,7 +69,7 @@ function App() {
                 className="bg-zinc-700 px-4 py-2 flex items-center text-white rounded-md"
                 action={onUpdate}
               >
-                <span className="flex-1 flex gap-2 items-baseline">
+                <span className="flex-1 flex gap-2">
                   <input
                     type="checkbox"
                     checked={todo.checked}
@@ -76,7 +83,7 @@ function App() {
                     defaultValue={todo.name}
                     name="todoUpdate"
                     disabled={todo.checked}
-                    className="bg-zinc-700 outline-none flex-1" />
+                    className={classname(todo.checked)} />
                 </span>
                 <div className="flex gap-2">
                   <button

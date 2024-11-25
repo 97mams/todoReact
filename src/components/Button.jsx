@@ -1,4 +1,4 @@
-export function Button({ type = "text", onclick, color, children }) {
+export function Button({ type = "button", onclick, color, children }) {
     return (
         <button
             type={type}
