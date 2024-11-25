@@ -1,9 +1,34 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Button } from "./components/Button"
+
+const getDefaultlcaleSotrageValue = (key) => {
+  const storeValue = localStorage.getItem(key)
+
+  if (!storeValue) {
+    return null
+  }
+  try {
+    return JSON.parse(storeValue)
+  } catch {
+    return null
+  }
+}
+
+const useStickyState = (localSorageKey, defaultValue) => {
+  const [state, setState] = useState(
+    getDefaultlcaleSotrageValue(localSorageKey) ?? defaultValue
+  )
+
+  useEffect(() => {
+    localStorage.setItem(localSorageKey, JSON.stringify(state))
+  }, [localSorageKey, state])
+
+  return [state, setState]
+}
 
 function App() {
 
-  const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useStickyState("ma-supper-todo", [])
 
   const onAction = async (formData) => {
     const todo = formData.get('todo')
@@ -16,6 +41,7 @@ function App() {
   }
 
   const todoUpdateChecked = (id, newTodo) => {
+
     setTodos(todos.map((todo) => {
       if (todo.id === id) {
         return { ...todo, ...newTodo }
@@ -32,12 +58,11 @@ function App() {
     setTodos(
       todos.map((todo) => {
         if (todo.id === formData.id) {
-          return { ...todo, ...formData.todoUpdate }
+          return { ...todo, ...formData }
         }
         return todo
       })
     )
-    alert('update')
 
   }
 
@@ -52,7 +77,7 @@ function App() {
     <div className="m-full flex flex-col p-10 gap-4">
       <h1 className="text-white text-4xl">Todo liste</h1>
       <form action={onAction} className="flex gap-2">
-        <input type="text" name="todo" className="border border-white bg-zinc-700 text-white rounded-md px-4 py-3 flex-1" />
+        <input type="text" name="todo" required className="border border-white bg-zinc-700 text-white rounded-md px-4 py-3 flex-1" />
         <Button
           type="submit"
         >
